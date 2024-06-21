@@ -1,0 +1,456 @@
+import pandas as pd
+import numpy as np 
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_csv("C:/Users/USER/Desktop/Dissertation/media prediction and its cost.csv")
+data.head()
+df = pd.read_csv("C:/Users/USER/Desktop/Dissertation/media prediction and its cost.csv")
+df.head()
+df.columns
+df.info()
+df.describe()
+summary_stats_transposed = df.describe().T
+print(summary_stats_transposed)
+df.dtypes.value_counts()
+x = df.isnull().sum()
+print(x)
+df= df.dropna()
+df=df.drop(columns=["avg_cars_at home(approx).1"])
+df.head()
+df.columns
+df.info()
+fig, ax = plt.subplots(1, 2, figsize=(14, 4))
+# Plot count plot for 'gender' in the first subplot (ax[0])
+sns.countplot(ax=ax[0],data=df, y='education')
+ax[0].set_xlabel('Total no: of transactions')
+ax[0].set_ylabel(None)
+ax[0].set_yticks([0,1,2,3,4],
+ labels=['High School*', 'Bachelors','High School','Graduate', 'Bachelors*'])
+ax[0].set_title('\nCustomers Education Level')
+sns.countplot(ax=ax[1], data=df, y='occupation')
+ax[1].set_xlabel('Total no: of transactions')
+ax[1].set_xlabel(None)
+ax[1].set_yticks([0,1,2,3,4],
+ labels=['Skilled Manual', 'Professional', 'Manual', 'Management', 'Clerical'])
+ax[1].set_title('\nCustomers Occupation Type')
+# Set the style
+plt.style.use('fivethirtyeight')
+# Adjust spacing between subplots
+plt.tight_layout()
+# Save the figure as an image (e.g., PNG)
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\education_job.png"
+fig.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Show the plots
+plt.show()
+df['cost'] = pd.to_numeric(df['cost'], errors='coerce')
+# Create a 2x2 grid of subplots
+fig, ax = plt.subplots(2, 2, figsize=(12, 6))
+# Plot count plot for 'food_family' in the first subplot (ax[0, 0])
+sns.countplot(data=df, y='food_family', ax=ax[0, 0])
+ax[0, 0].set_ylabel(None)
+ax[0, 0].set_xlabel(None)
+ax[0, 0].set_yticks([0,1,2], labels=['Food', 'Other', 'Drink'])
+ax[0, 0].set_title('\nItems purchased by Food Family\n')
+# Plot count plot for 'education' in the second subplot (ax[0, 1])
+sns.countplot(data=data, y='prepared_food', ax=ax[0, 1])
+ax[0, 1].set_ylabel(None)
+ax[0, 1].set_xlabel(None)
+ax[0, 1].set_yticks([0,1], labels=['No', 'Yes'])
+ax[0, 1].set_title('\nIs the bought item prepared food?\n')
+# Plot count plot for 'occupation' in the third subplot (ax[1, 0])
+sns.countplot(data=df, y='recyclable_package', ax=ax[1, 0])
+ax[1, 0].set_ylabel(None)
+ax[1, 0].set_xlabel(None)
+ax[1, 0].set_yticks([0,1], labels=['No', 'Recyclable'])
+ax[1, 0].set_title('\nIs the product Recyclable?')
+# Plot count plot for 'marital_status' in the fourth subplot (ax[1, 1])
+sns.countplot(data=df, y='low_fat', ax=ax[1, 1])
+ax[1, 1].set_ylabel(None)
+ax[1, 1].set_xlabel(None)
+ax[1, 1].set_yticks([0,1], labels=['Regular', 'Low Fat'])
+ax[1, 1].set_title('\nIs the product Low Fat?')
+# Adjust spacing between subplots
+plt.tight_layout()
+# Save the figure as an image (e.g., PNG)
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\food.png"
+fig.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Show the plots
+plt.show()
+
+fig, ax = plt.subplots(3,1, figsize=(8,20))
+# Plot count plot for 'sales_country'
+sns.countplot(data=df, x='sales_country', ax=ax[0])
+ax[0].set_ylabel(None)
+ax[0].set_xlabel(None)
+ax[0].set_title('\nTotal Number of Transactions by Country\n')
+# Plot count plot for 'store_state' with hue 'sales_country'
+sns.countplot(data=df, y='store_state', hue='sales_country', ax=ax[1])
+ax[1].set_ylabel(None)
+ax[1].set_xlabel(None)
+ax[1].set_title('\nTotal Number of Transactions by State\n')
+# Plot count plot for 'store_city' with hue 'sales_country'
+sns.countplot(data=df, y='store_city', hue='sales_country', ax=ax[2])
+ax[2].set_ylabel(None)
+ax[2].set_xlabel(None)
+ax[2].set_title('\nTotal Number of Transactions by City\n')
+# Set the style
+plt.style.use('fivethirtyeight')
+fig.savefig(r"C:\Users\USER\Downloads\cfm_plots\country_city_state.png", 
+bbox_inches='tight', dpi=300)
+# Show the plots
+plt.show()
+# Create a 1x2 grid of subplots
+fig, ax = plt.subplots(1, 3, figsize=(14, 4))
+# Plot count plot for 'gender' in the first subplot (ax[0])
+sns.countplot(data=df, y='gender', ax=ax[0])
+ax[0].set_ylabel(None)
+ax[0].set_xlabel(None)
+ax[0].set_yticks([1, 0], labels=['Male', 'Female'])
+ax[0].set_title('\nCustomer Gender')
+# Plot count plot for 'marital_status' in the second subplot (ax[1])
+sns.countplot(data=df, y='marital_status', ax=ax[1])
+ax[1].set_ylabel(None)
+ax[1].set_xlabel('No: of transactions')
+ax[1].set_yticks([1, 0], labels=['Married', 'Single'])
+ax[1].set_title('\nCustomers Marital Status')
+sns.countplot(ax=ax[2], data=df, y='houseowner')
+ax[2].set_ylabel(None)
+ax[2].set_xlabel(None)
+ax[2].set_yticks([1,0], labels=['No', 'Yes'])
+ax[2].set_title('\nCustomers Home Ownership')
+# Set the style
+plt.style.use('fivethirtyeight')
+# Adjust spacing between subplots
+plt.tight_layout()
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\gender_marital_home.png"
+plt.savefig(output_image_path, bbox_inches='tight', dpi=300)
+df['cost'] = pd.to_numeric(df['cost'], errors='coerce')
+# Group by "food_category" and compute the mean of the "cost" column
+grouped_category = df.groupby("food_category")["cost"].mean()
+# Group by "food_department" and compute the mean of the "cost" column
+grouped_department = df.groupby("food_department")["cost"].mean()
+# Create a subplot with two side-by-side plots
+fig, axs = plt.subplots(1, 2, figsize=(16, 8))
+# Plot the result for "food_category" as a bar chart in the first subplot
+grouped_category.plot(kind="bar", ax=axs[0])
+axs[0].set_xlabel("Food Category")
+axs[0].set_ylabel("Avg.Cost of Media Campaigns ($) ")
+axs[0].set_title("Impact of Food Category on Media Campaign Cost")
+# Plot the result for "food_department" as a bar chart in the second subplot
+grouped_department.plot(kind="bar", ax=axs[1])
+axs[1].set_xlabel("Food Department")
+axs[1].set_ylabel("Avg.Cost of Media Campaigns ($)")
+axs[1].set_title("Impact of Food Department on Media Campaign Cost")
+# Adjust spacing between subplots
+plt.tight_layout()
+# Save the figure as an image (e.g., PNG)
+output_image_path = 
+r"C:\Users\USER\Downloads\cfm_plots\food_category_department_cost.png"
+fig.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Show the combined plots
+plt.show()
+data['cost'] = pd.to_numeric(data['cost'], errors='coerce')
+# Group by "media_type" and compute the mean of the "cost" column
+grouped_media = data.groupby("media_type")["cost"].mean()
+# Create a subplot with a single plot
+fig, ax = plt.subplots(figsize=(16, 8))
+# Plot the result for "media_type" as a bar chart
+grouped_media.plot(kind="bar", ax=ax)
+ax.set_xlabel("Media Type")
+ax.set_ylabel("Avg. Cost of Media Campaigns ($) ")
+ax.set_title("Impact of Media Type on Media Campaign Cost")
+# Adjust spacing
+plt.tight_layout()
+# Save the figure as an image (e.g., PNG)
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\media_cost.png"
+fig.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Show the plot
+plt.show()
+grouped = data.groupby("food_family")["cost"].mean()
+# plot the data
+grouped.plot(kind="bar", x="food_family", y="cost", figsize=(4,4))
+plt.xlabel("")
+plt.ylabel("Avg.Cost of Media Campaigns($)",fontsize=10)
+plt.title("Impact of Food Type on Media Campaign Cost",fontsize=10)
+# Adjust spacing between subplots
+plt.tight_layout()
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\foodtype_cost.png"
+plt.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Set the figure size
+plt.figure(figsize=(10, 10))
+# Create the bar plot
+sns.barplot(x='cost', y='promotion_name', data=data)
+# Add title and labels
+plt.title("Impact of Promotion on Media Campaign Cost")
+plt.xlabel("Cost")
+plt.ylabel("Promotion Name")
+plt.tight_layout()
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\promotion_name.png"
+plt.savefig(output_image_path, bbox_inches='tight', dpi=300)
+mean_costs = df.groupby('num_children_at_home')['cost'].mean()
+# Set the figure size
+plt.figure(figsize=(10, 6))
+# Create the bar plot
+sns.barplot(x=mean_costs.index, y=mean_costs.values, color='blue')
+# Add title and labels
+plt.title("Average Campaign Cost by Number of Children at Home")
+plt.xlabel("Number of Children at Home")
+plt.ylabel("Average Campaign Cost")
+# Display the plot
+plt.show()
+df_sorted = df.sort_values("cost", ascending=False)
+# Set the figure size before creating the plot
+plt.figure(figsize=(10, 4))
+# Create the bar plot
+sns.barplot(x='cost', y='avg. yearly_income', data=df_sorted)
+# Set labels
+plt.xlabel("Cost")
+plt.ylabel("Avg. Yearly Income") # Empty string to remove the ylabel
+# Save the figure as an image (e.g., PNG)
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\income.png"
+plt.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Show the plot
+plt.show()
+fig, axes = plt.subplots(1, 2, figsize=(15, 6))
+# Plot the first bar plot (Gender vs. Cost)
+sns.barplot(x='gender', y='cost', data=df, ax=axes[0]) # Place on the first subplot
+axes[0].set_xlabel('Gender')
+axes[0].set_ylabel('Cost')
+axes[0].set_title('Cost of Media Campaigns by Gender')
+# Plot the second bar plot (Marital Status vs. Cost)
+sns.boxplot(x='marital_status', y='cost', data=df, ax=axes[1]) # Place on the second subplot
+axes[1].set_xlabel('Marital Status')
+axes[1].set_ylabel('Cost')
+axes[1].set_title('Cost of Media Campaigns by Marital Status')
+# Adjust layout
+plt.tight_layout()
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\marriage_gender_cost.png"
+fig.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Show the combined plot
+plt.show()
+for col in df.columns[:-1]:
+ if df[col].dtype == 'object': # Check if the column is of object (string) type
+ for i in range(df.shape[0]):
+ # Convert characters to ASCII and sum the values
+ asciis = [ord(char) for char in str(df.iloc[i, df.columns.get_loc(col)])]
+ df.iloc[i, df.columns.get_loc(col)] = sum(asciis)
+# Convert all columns to numeric
+df = df.apply(pd.to_numeric, errors='coerce')
+df.info()
+# Perform correlation analysis
+corr_matrix = df.corr()
+plt.figure(figsize=(28, 28))
+sns.heatmap(corr_matrix, cmap='coolwarm')
+plt.title("Correlation Heatmap")
+plt.tight_layout()
+# Save the plot as an image
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\corrplot.png"
+plt.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Display a message to confirm the save
+print("Correlation plot saved as", output_image_path)
+corr_matrix = df.corr()
+# Find the top N pairs of features with the highest correlation (either positive or negative)
+N = 30
+corr_pairs = corr_matrix.unstack().sort_values(ascending=False).drop_duplicates()
+# Filter out self-correlation and NaN (diagonal and missing values)
+corr_pairs = corr_pairs[corr_pairs.index.get_level_values(0) != 
+corr_pairs.index.get_level_values(1)]
+corr_pairs = corr_pairs.dropna()
+# Get the top N pairs with maximum correlation
+top_corr_pairs = corr_pairs.head(N)
+# Print the top correlated pairs of features
+print("Top", N, "correlated pairs of features:")
+for (feature1, feature2), correlation in top_corr_pairs.items():
+ print(f"{feature1} - {feature2}: {correlation:.4f}")
+pair_names = [f"{feature1} - {feature2}" for (feature1, feature2) in top_corr_pairs.index]
+correlations = top_corr_pairs.values
+# Create a horizontal bar chart
+plt.figure(figsize=(10, 8))
+plt.barh(pair_names, correlations, color='green')
+plt.xlabel('Correlation')
+plt.ylabel('Feature Pairs')
+plt.title('Top Correlated Feature Pairs')
+plt.gca().invert_yaxis() # Invert y-axis to have the highest correlation at the top
+plt.tight_layout()
+# Save the plot as an image
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\corr_pairs.png"
+plt.savefig(output_image_path, bbox_inches='tight', dpi=300)
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import load_iris # Replace this with your own dataset
+import matplotlib.pyplot as plt
+from factor_analyzer import FactorAnalyzer
+# Perform PCA
+X = df.drop(columns=[df.columns[-1]]) # Drop the target variable column
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+# Perform PCA
+pca = PCA()
+pca.fit(X_scaled)
+# Print summary of PCA results (explained variance ratio and eigenvalues)
+explained_variance_ratio = pca.explained_variance_ratio_
+eigenvalues = pca.explained_variance_
+#for i, (evr, eig) in enumerate(zip(explained_variance_ratio, eigenvalues), 1):
+ # print(f"Principal Component {i}: Explained Variance Ratio = {evr:.4f}, Eigenvalue = 
+{eig:.4f}")
+# Select top 10 variables through PCA
+top_features_indices = pca.components_.argsort(axis=1)[:, ::-1][:, :20]
+top_features = [X.columns[idx] for idx in top_features_indices[0]]
+print("Top 20 features selected through PCA:")
+print(", ".join(top_features))
+# Set the figure size
+plt.figure(figsize=(10, 10))
+# Create the bar plot
+sns.barplot(x='cost', y='food_category', data=data)
+# Add title and labels
+plt.title("Impact of Food Category on Media Campaign Cost")
+plt.xlabel("Cost")
+plt.ylabel("Food Category")
+plt.tight_layout()
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\categ_cost.png"
+plt.savefig(output_image_path, bbox_inches='tight', dpi=300)
+features_to_drop = ['net_weight', 'sales_country', 'salad_bar', 'coffee_bar', 'video_store', 
+'florist', 'grocery_sqft', 
+ 'meat_sqft', 'frozen_sqft', 'store_cost(in millions)', 'prepared_food', 
+'total_children', 'food_department']
+df.drop(columns=features_to_drop, inplace=True)
+from sklearn.model_selection import train_test_split
+x = df.drop(columns='cost')
+y = df['cost']
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+x_train.shape
+print(x_train.shape)
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor # Import from sklearn.tree, not 
+sklearn.linear_model
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.svm import SVR # SupportVectorRegressor is not a class, use SVR for Support 
+Vector Regression
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+lr = LinearRegression()
+lr.fit(x_train, y_train
+)
+print('Attempting to fit Linear Regressor')
+y_pred = lr.predict(x_test)
+mse = mean_squared_error(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print("Mean Squared Error: ", mse)
+print("Mean Absolute Error: ", mae
+)
+print("R^2 Score: ", r2)
+svm = SVR()
+svm.fit(x_train,y_train)
+print('Attempting to fit Support Vector Regressor')
+y_pred = svm.predict(x_test)
+mse = mean_squared_error(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print("Mean Squared Error: ", mse)
+print("Mean Absolute Error: ", mae)
+print("R^2 Score: ", r2)
+dt = DecisionTreeRegressor(random_state = 0)
+dt.fit(x_train,y_train)
+print('Attempting to fit Decision Tree Regressor')
+y_pred = dt.predict(x_test)
+mse = mean_squared_error(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print("Mean Squared Error: ", mse)
+print("Mean Absolute Error: ", mae)
+print("R^2 Score: ", r2)
+rf = RandomForestRegressor()
+rf.fit(x_train,y_train)
+print('Attempting to fit Random Forest Regressor')
+y_pred = rf.predict(x_test)
+mse = mean_squared_error(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print("Mean Squared Error: ", mse)
+print("Mean Absolute Error: ", mae)
+print("R^2 Score: ", r2)
+bins = [0, 5, 10, 15, 20, 25]
+# Define labels for each category
+labels = ['0
+-5', '5
+-10', '10
+-15', '15
+-20', '20
+-25']
+# Add a new column 'store_sales_category' with the classified categories
+data['store_sales_category'] = pd.cut(data['store_sales(in millions)'], bins=bins, labels=labels, 
+include_lowest=True)
+data['cost'] = pd.to_numeric(data['cost'], errors='coerce')
+# Group by "media_type" and compute the mean of the "cost" column
+grouped_media = data.groupby("store_sales_category")["cost"].mean()
+# Create a subplot with a single plot
+fig, ax = plt.subplots(figsize=(16, 8))
+# Plot the result for "media_type" as a bar chart
+grouped_media.plot(kind="bar", ax=ax, color='teal')
+ax.set_xlabel("store_sales (in millions)")
+ax.set_ylabel("Avg. Cost of Media Campaigns ($) ")
+ax.set_title("Impact of store sales on Media Campaign Cost")
+# Adjust spacing
+plt.tight_layout()
+# Save the figure as an image (e.g., PNG)
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\store sales_cost.png"
+fig.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Show the plot
+plt.show()
+import matplotlib.pyplot as plt
+supermarket_store = data[data['store_type'] == "Supermarket"]
+deluxe_supermarket_store = data[data['store_type'] == "Deluxe Supermarket"]
+gourmet_supermarket_store = data[data['store_type'] == "Gourmet Supermarket"]
+mid_size_grocery_store = data[data['store_type'] == "Mid-Size Grocery"]
+small_grocery_store = data[data['store_type'] == "Small Grocery"]
+stores = ["Supermarket", "Deluxe Supermarket", "Gourmet Supermarket", "Mid-Size 
+Grocery", "Small Grocery"]
+fig, ax = plt.subplots(3, 2, figsize=(20, 10))
+ax = ax.ravel() # Flatten the 2D array to a 1D list
+for i, store in enumerate([supermarket_store, deluxe_supermarket_store, 
+gourmet_supermarket_store, mid_size_grocery_store, small_grocery_store]):
+ df_category_quantity = store.groupby('promotion_name')['unit_sales(in 
+millions)'].sum().reset_index()
+ df_category_quantity.sort_values(by='unit_sales(in millions)', ascending=False)
+ ax[i].barh(df_category_quantity[:10]['promotion_name'], 
+df_category_quantity[:10]['unit_sales(in millions)'])
+ ax[i].tick_params(axis='x', rotation=90, labelsize=12)
+ ax[i].tick_params(axis='y', labelsize=12)
+ ax[i].set_xlabel('Quantity', fontsize=14)
+ ax[i].set_ylabel('Category', fontsize=14)
+ ax[i].set_title(stores[i], fontsize=16, color='brown')
+fig.suptitle('Net Sales of Each Promotion in Each Supermarket', fontsize=25, color='brown', 
+y=0.98)
+plt.tight_layout()
+plt.show()
+bins_sqft = [20000, 22000, 24000, 26000, 28000, 30000, 32000, 34000, 36000, 38000, 
+40000]
+# Define labels for each category
+labels_sqft = ['20000-22000', '22000-24000', '24000-26000', '26000-28000', '28000-30000',
+ '30000-32000', '32000-34000', '34000-36000', '36000-38000', '38000-40000']
+# Add a new column 'store_sqft_category' with the classified categories
+data['store_sqft_category'] = pd.cut(data['store_sqft'], bins=bins_sqft, labels=labels_sqft, 
+include_lowest=True)
+data.head()
+data['cost'] = pd.to_numeric(data['cost'], errors='coerce')
+# Group by "media_type" and compute the mean of the "cost" column
+grouped_media = data.groupby("store_sqft_category")["cost"].mean()
+# Create a subplot with a single plot
+fig, ax = plt.subplots(figsize=(16, 8))
+# Plot the result for "media_type" as a bar chart
+grouped_media.plot(kind="bar", ax=ax, color='red')
+ax.set_xlabel("store_squarefeet")
+ax.set_ylabel("Avg. Cost of Media Campaigns ($) ")
+ax.set_title("Impact of store squarefeet on Media Campaign Cost")
+# Adjust spacing
+plt.tight_layout()
+# Save the figure as an image (e.g., PNG)
+output_image_path = r"C:\Users\USER\Downloads\cfm_plots\storesqrft_cost.png"
+fig.savefig(output_image_path, bbox_inches='tight', dpi=300)
+# Show the plot
+plt.show()
+grp_product = data.groupby('food_category')
+sales_by_product = grp_product['unit_sales(in millions)'].mean().reset_index()
+sales_by_product = sales_by_product.sort_values(by='unit_sales(in millions)', 
+ascending=False)
+sales_by_product[:10]
